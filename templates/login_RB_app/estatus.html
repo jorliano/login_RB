@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends "login_RB_app/template.html" %}
+  {% block body_block%}
+    <h1 class="display-4">Estatus</h1>
+    <form class="form-group" method="POST">
+      {{mikrotik.name}}
+      <br>
+      {{mikrotik.login}}
+      <br>
+      {{mikrotik.ip}}
+      <br>
+
+      <input class="btn btn-primary"  value="Editar">
+      <input class="btn btn-danger"  value="Deletar">
+    </form>
+  {% endblock %}

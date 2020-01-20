@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "login_RB_app/template.html" %}
+  {% block body_block%}
+    <h1 class="display-4">Mikrotiks</h1>
+    {% if mikrotiks %}
+    <table class="table">
+      <thead>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Login</th>
+        <th>IP</th>
+      </thead>
+      {% for m in mikrotiks %}
+      <tr>
+        <td> <a href="">{{ m.id }}</a> </td>
+        <td> <a href="{% url 'app:estatus' m.id %}">{{ m.name |title }}</a> </td>
+        <td>{{ m.login  }}</td>
+        <td>{{ m.ip }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>Nenhum mikrotik encontrado</p>
+    {% endif %}
+    <hr class="my-4">
+    <p>Lista de mikrotiks cadastrado no sistema.</p>
+    <p class="lead">
+      <a href="{% url 'app:cadastro' %}" type="buttom" class="btn btn-primary btn-lg" >Cadastrar</a>
+    </p>
+  {% endblock %}
