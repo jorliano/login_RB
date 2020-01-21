@@ -1,17 +1,45 @@
 from django.shortcuts import render
+from django.views.generic import View,TemplateView, ListView,DetailView,CreateView,UpdateView,DeleteView
+from . import models
 #from django.http import HttpResponse
-from login_RB_app.models import Mikrotik
 #from . import forms
-from login_RB_app.forms import NewMikrotikForm
 from django.contrib.auth.hashers import make_password
+from login_RB_app.forms import NewMikrotikForm
+from django.urls import reverse
 
-def index(request):
-    mikrotik_list = Mikrotik.objects.order_by('name')
-    return render(request,'login_RB_app/index.html', {'mikrotiks': mikrotik_list})
+class IndexView(TemplateView):
+    template_name = 'index.html'
 
-def estatus(request):
-    mikrotik = Mikrotik.objects.get(pk=request.id)
-    return render(request,'login_RB_app/estatus.html', {'mikrotik': mikrotik})
+
+class ListMikrotikView(ListView):
+    context_object_name = 'mikrotiks'
+    model = models.Mikrotik
+    template_name = "login_RB_app/mikrotik_lista.html"
+
+class DetailMikrotikView(DetailView):
+    #context_object_name = 'mikrotik_detail'
+    model = models.Mikrotik
+    template_name = "login_RB_app/mikrotik_estatus.html"
+
+class CreateMikrotikView(CreateView):
+    model = models.Mikrotik
+    template_name = "login_RB_app/mikrotik_cadastro.html"
+    fields = ['name','login','password','ip']
+    def get_success_url(self):
+        return reverse('app:lista')
+
+
+class UpdateMikrotikView(UpdateView):
+    model = models.Mikrotik
+    template_name = "login_RB_app/mikrotik_cadastro.html"
+    fields = ['name','login','password','ip']
+    def get_success_url(self):
+        return reverse('app:lista')
+
+class DeleteMikrotikView(DeleteView):
+    model = models.Mikrotik
+    def get_success_url(self):
+        return reverse('app:lista')
 
 def cadastrar(request):
     form = NewMikrotikForm()
@@ -28,19 +56,3 @@ def cadastrar(request):
            print('Erro ao salvar dados')
 
     return render(request,'login_RB_app/cadastro.html',{'form':form})
-
-def editar(id,request):
-    form = NewMikrotikForm()
-
-    if request.method == 'UPDATE' and id != 0:
-        form = NewMikrotikForm(request.UPDATE)
-        if form.is_valid():
-           #form.save(commit=True)
-           mk = form.save()
-           mk.password = make_password(mk.password)
-           mk.save()
-           return index(request)
-        else:
-           print('Erro ao editar dados')
-
-    return render(request,'login_RB_app/edicao.html',{'form':form})

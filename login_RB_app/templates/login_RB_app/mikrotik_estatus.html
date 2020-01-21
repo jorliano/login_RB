@@ -1,0 +1,14 @@
+{% extends "login_RB_app/home.html" %}
+{% block body_block%}
+  <div class="jumbotrom">
+    <h1 class="display-4">Mikrotik</h1>
+    <h2>Mikrotik Estatus</h2>
+    <p>Nome: {{mikrotik.name}}</p>
+    <p>Login: {{mikrotik.login}}</p>
+    <p>IP: {{mikrotik.ip}}</p>
+    <p class="lead">
+      <a href="{% url 'app:update' mikrotik.id  %}" type="buttom" class="btn btn-primary " >Update</a>
+        <a href="{% url 'app:delete' mikrotik.id  %}" type="buttom" class="btn btn-danger " >Delete</a>
+    </p>
+  </div>
+{% endblock %}

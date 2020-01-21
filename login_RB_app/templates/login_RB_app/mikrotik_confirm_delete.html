@@ -1,0 +1,9 @@
+{% extends "login_RB_app/home.html" %}
+{% block body_block%}
+  <h1>Delete {{mikrotik.name}}?</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" name="salvar" value="Delete">
+    <a href="{% url 'app:estatus' mikrotik.id %}">Voltar</a>
+  </form>
+{% endblock %}
