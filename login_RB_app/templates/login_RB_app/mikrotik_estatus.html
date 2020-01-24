@@ -6,6 +6,7 @@
     <p>Nome: {{mikrotik.name}}</p>
     <p>Login: {{mikrotik.login}}</p>
     <p>IP: {{mikrotik.ip}}</p>
+    <p>Categoria: {{mikrotik.categoria.name}}</p>    
     <p class="lead">
       <a href="{% url 'app:update' mikrotik.id  %}" type="buttom" class="btn btn-primary " >Update</a>
         <a href="{% url 'app:delete' mikrotik.id  %}" type="buttom" class="btn btn-danger " >Delete</a>

@@ -1,0 +1,17 @@
+{% extends "login_RB_app/home.html" %}
+{% block body_block%}
+
+    <h1 class="display-4">
+      {% if not form.instace.pk %}
+      Cadastro de Mikrotik
+      {% else %}
+      Edição do Mikrotik
+      {% endif %}
+    </h1>
+    <form method="POST">
+      {{form.as_p}}
+      <h3>Categorias:</h3>
+      {% csrf_token %}
+      <input type="submit" class="btn btn-primary" name="salvar" value="Salvar">
+    </form>
+{% endblock %}
