@@ -9,6 +9,8 @@ urlpatterns = [
     path('cadastro', views.CreateMikrotikView.as_view(),name='cadastro'),
     path('update/<int:pk>/', views.UpdateMikrotikView.as_view(),name='update'),
     path('delete/<int:pk>/', views.DeleteMikrotikView.as_view(),name='delete'),
-    path('commands', views.add_user_command,name='commands'),
+    path('add_user_command', views.add_user_command,name='add_user_command'),
+    path('update_user_command', views.update_user_command,name='update_user_command'),
+    path('remove_user_command', views.remove_user_command,name='remove_user_command'),
 
 ]

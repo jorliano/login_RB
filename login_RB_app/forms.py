@@ -11,6 +11,13 @@ class MikrotikForm(forms.ModelForm):
         }
 
 class AddUserCommands(forms.Form):
-    username = forms.CharField(max_length=264)
-    password = forms.CharField(widget=forms.PasswordInput)
-    nivel = forms.ChoiceField(choices=(("LEITURA", "leitura"),("TOTAL", "total")))
+    name = forms.CharField(max_length=264)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'maxlength': '40'}))
+    nivel = forms.ChoiceField(choices=(("read", "leitura"),("write", "escrita"),("full", "Leitura/escritas")))
+    escopo = forms.ChoiceField(widget=forms.RadioSelect(attrs={ 'class':'form-check form-check-inline' }), choices=(("ip", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
+    ip = forms.CharField(required=False, widget=forms.TextInput(attrs={'maxlength': '15'}))
+
+class removerUserCommands(forms.Form):
+    name = forms.CharField(max_length=264)
+    escopo = forms.ChoiceField(widget=forms.RadioSelect(attrs={ 'class':'form-check form-check-inline' }), choices=(("ip", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
+    ip = forms.CharField(required=False, widget=forms.TextInput(attrs={'maxlength': '15'}))

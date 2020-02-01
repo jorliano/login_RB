@@ -1,0 +1,45 @@
+{% extends "login_RB_app/home.html" %}
+{% load crispy_forms_tags %}
+{% block body_block%}
+
+    <h1 class="display-4">
+    {{ titulo }} usuário(s) no(s) Mikrotik(s)
+    </h1>
+    <form method="POST">
+      {{ form|crispy }}
+      {% csrf_token %}
+      <div id="div_id_categoria" class="form-group">
+         <label for="id_categoria">
+            Categorias
+         </label>
+         <div class="">
+            <select name="categoria" class="select form-control" id="id_categoria">
+               {% for categoria in categorias %}
+                 <option value="{{ categoria.name }}">{{ categoria.name }}</option>
+               {% endfor %}
+           </select>
+         </div>
+       </div>
+      <input type="submit" class="btn btn-primary" value="Executar comando">
+    </form>
+
+    <script type="text/javascript">
+      $( "#div_id_categoria" ).hide();
+      $( "#div_id_ip" ).hide();
+
+      $('input[type=radio][name=escopo]').change(function() {
+        console.log(this.value)
+          if (this.value == 'ip') {
+              $( "#div_id_ip" ).show();
+              $( "#div_id_categoria" ).hide();
+          }
+          else if (this.value == 'categoria') {
+              $( "#div_id_categoria" ).show();
+              $( "#div_id_ip" ).hide();
+          }else{
+            $( "#div_id_categoria" ).hide();
+            $( "#div_id_ip" ).hide();
+          }
+      });
+    </script>
+{% endblock %}
