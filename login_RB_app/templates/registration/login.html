@@ -15,19 +15,32 @@
       <img src="{% static 'images/user.svg' %}" id="icon" alt="User Icon" />
     </div>
 
-
+    {% if form.errors %}
+       <p class="label-danger">
+           Nome de usuário ou senha incorreto!
+           Porfavor teste de novo.
+       </p>
+    {% endif %}
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-      <input type="submit" class="fadeIn fourth" value="Log In">
-    </form>  
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ form.username }}
+      {{ form.password }}
 
+      <input type="submit" class="fadeIn fourth" value="login">
+      <input type="hidden" name="next" value="{{ next }}">
+    </form>
 
     <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
+      <a class="underlineHover" href="#">Esqueceu sua Senha ?</a>
     </div>
 
   </div>
 </div>
+<script type="text/javascript" >
+    $(document).ready(function(){
+        $("#id_username").attr('placeholder', 'Nome de usuário');
+        $("#id_password").attr('placeholder', 'Senha');
+    });
+</script>

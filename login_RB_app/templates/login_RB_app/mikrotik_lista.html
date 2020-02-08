@@ -1,18 +1,18 @@
-{% extends "login_RB_app/home.html" %}
+{% extends "template.html" %}
 {% block body_block%}
     <h1 class="display-4">Mikrotiks</h1>
     {% if mikrotiks %}
     <table class="table">
       <thead>
         <th>Categoria</th>
-        <th>Nome</th>
+        <th>Descrição</th>
         <th>Login</th>
         <th>IP</th>
       </thead>
       {% for mikrotik in mikrotiks %}
       <tr>
-        <td>{{ mikrotik.categoria.name }}</td>
-        <td> <a href="{% url 'app:estatus' mikrotik.id %}">{{ mikrotik.name |title }}</a> </td>
+        <td>{{ mikrotik.categoria.descricao|title }}</td>
+        <td> <a href="{% url 'app:estatus' mikrotik.id %}">{{ mikrotik.descricao |title }}</a> </td>
         <td>{{ mikrotik.login  }}</td>
         <td>{{ mikrotik.ip }}</td>
       </tr>
@@ -21,6 +21,23 @@
     {% else %}
     <p>Nenhum mikrotik encontrado</p>
     {% endif %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; primeira</a>
+                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">proxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">ultima &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
     <hr class="my-4">
     <p>Lista de mikrotiks cadastrado no sistema.</p>
     <p class="lead">

@@ -1,4 +1,4 @@
-{% extends "login_RB_app/home.html" %}
+{% extends "template.html" %}
 {% load crispy_forms_tags %}
 {% block body_block%}
 
@@ -10,15 +10,14 @@
       {% endif %}
     </h1>
     <form method="POST">
-      {% if form.subject.errors %}
+      <!-- {% if form.subject.errors %}
       <ol role="alertdialog">
           {% for error in form.subject.errors %}
           <li role="alert"><strong>{{ error|escape }}</strong></li>
           {% endfor %}
-      </ol>
+      </ol> -->
       {% endif %}
       {{ form|crispy }}
-      <h3>Categorias:</h3>
       {% csrf_token %}
       <input type="submit" class="btn btn-primary" name="salvar" value="Salvar">
     </form>

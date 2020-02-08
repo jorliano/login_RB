@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from login_RB_app import views
+from django.contrib.auth.views import LoginView,LogoutView
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view()),
-    path('', include('login_RB_app.urls')),
+    path('', LoginView.as_view(), name="login"),
+    path('logout/',LogoutView.as_view(),name='logout',kwargs={'next_page':'/'}),
+    path('mikrotik/', include('login_RB_app.urls')),
 ]

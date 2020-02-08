@@ -10,7 +10,7 @@ class Servidor:
     api = ()
 
     def __init__(self, mk):
-            self.api = connect(username=mk.login, password=mk.password, host=mk.ip, login_method=token)
+            self.api = connect(username=mk.login, password=mk.senha, host=mk.ip, login_method=token)
 
 
     def get_user(self,user_name):
@@ -23,10 +23,10 @@ class Servidor:
         tuple(api.path("user"))
 
     def add_user(self,mikrotik):
-        user_id = self.get_user(mikrotik['name'])
+        user_id = self.get_user(mikrotik['descricao'])
         if user_id:
             return 'usuario já exite'
-        return self.api.path("user").add(name=mikrotik['name'],password=mikrotik['password'],group=mikrotik['nivel'])
+        return self.api.path("user").add(name=mikrotik['descricao'],password=mikrotik['senha'],group=mikrotik['nivel'])
 
     def remove_user(self,name):
         user_id = self.get_user(name)
@@ -35,12 +35,10 @@ class Servidor:
         return 'falha ao remover usuario'
 
     def update_user(self,mikrotik):
-        user_id = self.get_user(mikrotik['name'])
+        user_id = self.get_user(mikrotik['descricao'])
         if user_id:
-            params = {'password':mikrotik['password'],'group': mikrotik['nivel'], '.id' :'*2'}
-            print(params)
-            path = self.api.path("user")
-            return path.update(**params)
+            params = {'password':mikrotik['senha'],'group': mikrotik['nivel'], '.id' :user_id}
+            return  self.api.path("user").update(**params)
         return 'falha ao atualizar usuario'
 
     def close(self):

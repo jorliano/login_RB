@@ -8,7 +8,7 @@ class MikrotikComandos:
         for mk in Mikrotik:
             print(mk.ip+'\n')
             print(mk.login+'\n')
-            print(mk.password+'\n')
+            print(mk.senha+'\n')
 
     def add_logins(self,Mikrotik,data):
         print(data)
@@ -18,29 +18,29 @@ class MikrotikComandos:
                  msg = servidor.add_user(data)
 
                  if len(msg) < 10:
-                    self.list.append({'name':mk.name,'tipo':25,'msg':'comando realizado com sucesso'})
+                    self.list.append({'descricao':mk.descricao,'tipo':'success','msg':'comando realizado com sucesso'})
                  else:
-                    self.list.append({'name':mk.name,'tipo':30,'msg':msg})
+                    self.list.append({'descricao':mk.descricao,'tipo':'warning','msg':msg})
 
              except Exception as e:
-                 self.list.append({'name':mk.name,'tipo':40,'msg':'comando falhou'})
+                 self.list.append({'descricao':mk.descricao,'tipo':'danger','msg':'comando falhou'})
 
         return self.list
 
     def remover_users(self,Mikrotik,data):
-        print(data['name'])
+        print(data['descricao'])
         for mk in Mikrotik:
              try:
                  servidor = Servidor(mk)
-                 msg = servidor.remove_user(data['name'])
+                 msg = servidor.remove_user(data['descricao'])
 
                  if msg == None:
-                    self.list.append({'name':mk.name,'tipo':25,'msg':'comando realizado com sucesso'})
+                    self.list.append({'descricao':mk.descricao,'tipo':'success','msg':'comando realizado com sucesso'})
                  else:
-                    self.list.append({'name':mk.name,'tipo':30,'msg':msg})
+                    self.list.append({'descricao':mk.descricao,'tipo':'warning','msg':msg})
 
              except Exception as e:
-                 self.list.append({'name':mk.name,'tipo':40,'msg':'comando falhou'})
+                 self.list.append({'descricao':mk.descricao,'tipo':'danger','msg':'comando falhou'})
                  print(e)
 
         return self.list
@@ -51,12 +51,11 @@ class MikrotikComandos:
                  servidor = Servidor(mk)
                  msg = servidor.update_user(data)
 
-                 if len(msg) < 10:
-                    self.list.append({'name':mk.name,'tipo':25,'msg':'comando realizado com sucesso'})
+                 if msg == None:
+                    self.list.append({'descricao':mk.descricao,'tipo':'success','msg':'comando realizado com sucesso'})
                  else:
-                    self.list.append({'name':mk.name,'tipo':30,'msg':msg})
+                    self.list.append({'descricao':mk.descricao,'tipo':'warning','msg':msg})
 
              except Exception as e:
-                 self.list.append({'name':mk.name,'tipo':40,'msg':'comando falhou'})
-
+                 self.list.append({'descricao':mk.descricao,'tipo':'danger','msg':'comando falhou'})
         return self.list

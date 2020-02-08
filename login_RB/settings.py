@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login_RB_app',
     'crispy_forms',
+    'include_by_ajax',
+
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -135,3 +137,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+LOGIN_REDIRECT_URL ='/mikrotik'
+LOGOUT_REDIRECT_URL = '/'

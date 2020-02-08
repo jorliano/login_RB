@@ -1,0 +1,10 @@
+{% extends "template.html" %}
+{% block body_block%}
+    <h1 class="display-4">Resutado dos Comandos</h1>
+    {% for reaultado in view.resultado_comandos %}
+      <div class="alert alert-{{reaultado.tipo}}" role="alert">
+        <h4 class="alert-heading">{{ reaultado.descricao |title}}</h4>
+        {{ reaultado.msg }}
+      </div>
+    {% endfor%}
+{% endblock %}
