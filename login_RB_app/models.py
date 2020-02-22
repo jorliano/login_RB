@@ -1,18 +1,10 @@
 from django.db import models
 from django.core.validators import ip_address_validators
 from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 
 class Categoria(models.Model):
     descricao = models.CharField(max_length=256,unique=True)
-
-
-    def popularCategorias(self):
-        self.descricao = 'cliente'
-        self.save()
-        self.descricao = 'concentrador'
-        self.save()
-        self.descricao = 'core'
-        self.save()
 
     def __str__(self):
         return self.descricao
@@ -28,3 +20,7 @@ class Mikrotik(models.Model):
 
     def __str__(self):
         return self.descricao
+
+    # def save(self, *args, **kwargs):
+    #     self.senha = make_password(self.senha)
+    #     super(Mikrotik, self).save(*args, **kwargs)

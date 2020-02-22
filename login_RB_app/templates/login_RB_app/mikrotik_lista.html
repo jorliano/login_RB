@@ -1,6 +1,20 @@
 {% extends "template.html" %}
 {% block body_block%}
-    <h1 class="display-4">Mikrotiks</h1>
+
+    <div class="row">
+     <div class="col-lg-8">
+         <h1 class="display-4">Mikrotiks</h1>
+     </div>
+     <div class="col-sm-4">
+         {% if mikrotiks %}
+           {# Mikrotik Search Form #}
+           <form class="form-inline my-2 my-lg-0" method="get">
+             <input class="form-control mr-sm-2" id="al-search" type="search" name="mikrotik" placeholder="Busca pela descrição"/>
+             <input type="submit"  value="Buscar" class="btn btn-outline-success my-2 my-sm-0" />
+           </form>
+         {% endif %}
+     </div>
+   </div>
     {% if mikrotiks %}
     <table class="table">
       <thead>

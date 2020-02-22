@@ -1,9 +1,9 @@
 {% extends "template.html" %}
 {% block body_block%}
-  <h1>Delete {{mikrotik.name}}?</h1>
+  <h1>Deseja deletar {{mikrotik.descricao}} ?</h1>
   <form method="POST">
     {% csrf_token %}
-    <input type="submit" class="btn btn-danger" name="salvar" value="Delete">
-    <a href="{% url 'app:estatus' mikrotik.id %}">Voltar</a>
+    <input type="submit" class="btn btn-danger" name="salvar" value="Deletar">
+    <a href="{% url 'app:estatus' mikrotik.id %}" class="btn btn-warning">Voltar</a>
   </form>
 {% endblock %}

@@ -21,18 +21,17 @@ class MikrotikComandos:
                     self.list.append({'descricao':mk.descricao,'tipo':'success','msg':'comando realizado com sucesso'})
                  else:
                     self.list.append({'descricao':mk.descricao,'tipo':'warning','msg':msg})
-
+                
              except Exception as e:
                  self.list.append({'descricao':mk.descricao,'tipo':'danger','msg':'comando falhou'})
 
         return self.list
 
     def remover_users(self,Mikrotik,data):
-        print(data['descricao'])
         for mk in Mikrotik:
              try:
                  servidor = Servidor(mk)
-                 msg = servidor.remove_user(data['descricao'])
+                 msg = servidor.remove_user(data['username'])
 
                  if msg == None:
                     self.list.append({'descricao':mk.descricao,'tipo':'success','msg':'comando realizado com sucesso'})

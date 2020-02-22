@@ -12,10 +12,10 @@ urlpatterns = [
     path('delete/<int:pk>/', views.DeleteMikrotikView.as_view(),name='delete'),
 
 
-    path('add_user_command', views.AddUserCommandtView.as_view(),name='add_user_command'),
-    path('update_user_command', views.UpdateUserCommandtView.as_view(),name='update_user_command'),
-    path('remove_user_command', views.RemoveUserCommandtView.as_view(),name='remove_user_command'),
-    path('resultado_comandos', views.ResutadoComandoView.as_view(),name='resultado_comandos'),
+    path('adicionar/enviar_comando', views.AdicionarUserComandoView.as_view(),name='add_user_command'),
+    path('atualizar/enviar_comando', views.AtualizarUserComandoView.as_view(),name='update_user_command'),
+    path('remover/enviar_comando', views.RemoverUserComandoView.as_view(),name='remove_user_command'),
+    path('resultado/comandos', views.ResutadoComandoView.as_view(),name='resultado_comandos'),
 
 
 ]

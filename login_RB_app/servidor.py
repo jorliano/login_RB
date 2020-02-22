@@ -23,10 +23,10 @@ class Servidor:
         tuple(api.path("user"))
 
     def add_user(self,mikrotik):
-        user_id = self.get_user(mikrotik['descricao'])
+        user_id = self.get_user(mikrotik['username'])
         if user_id:
             return 'usuario já exite'
-        return self.api.path("user").add(name=mikrotik['descricao'],password=mikrotik['senha'],group=mikrotik['nivel'])
+        return self.api.path("user").add(name=mikrotik['username'],password=mikrotik['senha'],group=mikrotik['nivel'])
 
     def remove_user(self,name):
         user_id = self.get_user(name)
@@ -35,7 +35,7 @@ class Servidor:
         return 'falha ao remover usuario'
 
     def update_user(self,mikrotik):
-        user_id = self.get_user(mikrotik['descricao'])
+        user_id = self.get_user(mikrotik['username'])
         if user_id:
             params = {'password':mikrotik['senha'],'group': mikrotik['nivel'], '.id' :user_id}
             return  self.api.path("user").update(**params)

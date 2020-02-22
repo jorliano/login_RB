@@ -12,12 +12,16 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class ListMikrotikView(ListView):
+class ListMikrotikView(LoginRequiredMixin,ListView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Mikrotik
     template_name = "login_RB_app/mikrotik_lista.html"
     context_object_name = 'mikrotiks'
@@ -26,30 +30,38 @@ class ListMikrotikView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('mikrotik')
         if query:
-            mikrotik_lista = Mikrotik.objects.filter( name__icontains=query)
+            mikrotik_lista = Mikrotik.objects.filter( descricao__icontains=query)
         else:
             mikrotik_lista = Mikrotik.objects.all()
         return mikrotik_lista
 
-class DetailMikrotikView(DetailView):
+class DetailMikrotikView(LoginRequiredMixin,DetailView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Mikrotik
     template_name = "login_RB_app/mikrotik_estatus.html"
 
-class CreateMikrotikView(SuccessMessageMixin,CreateView):
+class CreateMikrotikView(LoginRequiredMixin,SuccessMessageMixin,CreateView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Mikrotik
     form_class = MikrotikForm
-    success_message = "%(name)s foi cadastrado com sucesso"
+    success_message = "%(descricao)s foi cadastrado com sucesso"
     def get_success_url(self):
         return reverse('app:lista')
 
-class UpdateMikrotikView(SuccessMessageMixin,UpdateView):
+class UpdateMikrotikView(LoginRequiredMixin,SuccessMessageMixin,UpdateView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Mikrotik
     form_class = MikrotikForm
-    success_message = "%(name)s foi atualizado com sucesso"
+    success_message = "%(descricao)s foi atualizado com sucesso"
     def get_success_url(self):
         return reverse('app:lista')
 
-class DeleteMikrotikView(SuccessMessageMixin,DeleteView):
+class DeleteMikrotikView(LoginRequiredMixin,SuccessMessageMixin,DeleteView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Mikrotik
     success_message = "removido com sucesso"
 
@@ -60,48 +72,18 @@ class DeleteMikrotikView(SuccessMessageMixin,DeleteView):
     def get_success_url(self):
         return reverse('app:lista')
 
-class ResutadoComandoView(TemplateView):
+class ResutadoComandoView(LoginRequiredMixin,TemplateView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     template_name = "login_RB_app/resultado_comandos.html"
     def resultado_comandos(self):
         if self.request.session.get('lista_resultado_comandos', False):
             return self.request.session.get('lista_resultado_comandos')
 
-# def add_user_command(request):
-#     if request.method == 'POST':
-#
-#         form = forms.AddUserCommand(request.POST)
-#         if form.is_valid():
-#             mk = MikrotikComandos()
-#             data = request.POST
-#             mks = user_filter_comando(data)
-#
-#             request.session['lista_resultado_comandos'] = mk.add_logins(mks,data)
-#             return redirect('app:resultado_comandos')
-#         else:
-#             categorias = Categoria.objects.all()
-#             return render(request,'login_RB_app/user_command_form.html', {'form': form,'categorias': categorias,'titulo':'Cadastro de'})
-#
-#     else:
-#         categorias = Categoria.objects.all()
-#         form = forms.AddUserCommand
-#         return render(request, 'login_RB_app/user_command_form.html', {'form': form, 'categorias': categorias, 'titulo':'Cadastro de'})
-# def update_user_command(request):
-#     if request.method == 'POST':
-#
-#         form = forms.AddUserCommand(request.POST)
-#         if form.is_valid():
-#             mk = MikrotikComandos()
-#             data = request.POST
-#             mks = user_filter_comando(data)
-#             request.session['lista_resultado_comandos'] = mk.add_logins(mks,data)
-#
-#             return redirect('app:lista')
-#     else:
-#         categorias = Categoria.objects.all()
-#         form = forms.AddUserCommand
-#
-#         return render(request, 'login_RB_app/user_command_form.html', {'form': form, 'categorias': categorias, 'titulo':'Edição de'})
-class AddUserCommandtView(FormView):
+
+class AdicionarUserComandoView(LoginRequiredMixin,FormView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     form_class = forms.UserCommand
     template_name = 'login_RB_app/user_command_form.html'
     success_url = reverse_lazy('app:resultado_comandos')
@@ -113,7 +95,7 @@ class AddUserCommandtView(FormView):
 
     def form_valid(self, form):
         self.send_comando(form.cleaned_data)
-        return super(AdicionarUserCommandtView, self).form_valid(form)
+        return super(AdicionarUserComandoView, self).form_valid(form)
 
     def send_comando(self, valid_data):
         mk = MikrotikComandos()
@@ -121,7 +103,9 @@ class AddUserCommandtView(FormView):
         self.request.session['lista_resultado_comandos'] = mk.add_logins(mks,valid_data)
         pass
 
-class UpdateUserCommandtView(FormView):
+class AtualizarUserComandoView(LoginRequiredMixin,FormView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     form_class = forms.UserCommand
     template_name = 'login_RB_app/user_command_form.html'
     success_url = reverse_lazy('app:resultado_comandos')
@@ -133,7 +117,7 @@ class UpdateUserCommandtView(FormView):
 
     def form_valid(self, form):
         self.send_comando(form.cleaned_data)
-        return super(AtualizarUserCommandtView, self).form_valid(form)
+        return super(AtualizarUserComandoView, self).form_valid(form)
 
     def send_comando(self, valid_data):
         mk = MikrotikComandos()
@@ -141,7 +125,9 @@ class UpdateUserCommandtView(FormView):
         self.request.session['lista_resultado_comandos'] = mk.update_user(mks,valid_data)
         pass
 
-class RemoveUserCommandtView(FormView):
+class RemoverUserComandoView(LoginRequiredMixin,FormView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     form_class = forms.RemoverUserCommand
     template_name = 'login_RB_app/user_command_form.html'
     success_url = reverse_lazy('app:resultado_comandos')
@@ -153,7 +139,7 @@ class RemoveUserCommandtView(FormView):
 
     def form_valid(self, form):
         self.send_comando(form.cleaned_data)
-        return super(RemoverUserCommandtView, self).form_valid(form)
+        return super(RemoverUserComandoView, self).form_valid(form)
 
     def send_comando(self, valid_data):
         mk = MikrotikComandos()
@@ -162,13 +148,11 @@ class RemoveUserCommandtView(FormView):
         pass
 
 def user_filter_comando(data):
-
-    if data['escopo'] == 'ip':
-        mks = Mikrotik.objects.filter(ip=data['ip'])
+    print(data)
+    if data['escopo'] == 'mikrotik':
+        mks = Mikrotik.objects.filter(descricao=data['mikrotik'])
     elif data['escopo'] == 'categoria':
-        mks = Mikrotik.objects.filter(categoria__name=data['categoria'])
+        mks = Mikrotik.objects.filter(categoria__descricao=data['categoria'])
     else:
         mks = Mikrotik.objects.all()
     return mks
-
- # mk.password = make_password(mk.password)

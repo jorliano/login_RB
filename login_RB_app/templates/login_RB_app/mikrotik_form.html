@@ -10,15 +10,9 @@
       {% endif %}
     </h1>
     <form method="POST">
-      <!-- {% if form.subject.errors %}
-      <ol role="alertdialog">
-          {% for error in form.subject.errors %}
-          <li role="alert"><strong>{{ error|escape }}</strong></li>
-          {% endfor %}
-      </ol> -->
-      {% endif %}
       {{ form|crispy }}
       {% csrf_token %}
       <input type="submit" class="btn btn-primary" name="salvar" value="Salvar">
+      <a href="{% url 'app:lista' %}" class="btn btn-warning">Voltar</a>
     </form>
 {% endblock %}

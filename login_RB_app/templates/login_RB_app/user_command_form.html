@@ -8,36 +8,38 @@
     </h1>
     <form method="POST">
       {{ form|crispy }}
-      {% csrf_token %}    
+      {% csrf_token %}
       <input type="submit" class="btn btn-primary" value="Executar comando" onclick="$('#loader').show();">
     </form>
 
     <script type="text/javascript">
+      $( 'input[type=radio][name=escopo]' ).parent().addClass( "form-check-inline" );
+
       var raioButon =  $('input[type=radio][name=escopo]');
        $( "#div_id_categoria" ).hide();
-       $( "#div_id_ip" ).hide();
+       $( "#div_id_mikrotik" ).hide();
 
-      if($('input[type=radio][name=escopo]:checked').val() == 'ip'){
-        $( "#div_id_ip" ).show();
+      if($('input[type=radio][name=escopo]:checked').val() == 'mikrotik'){
+        $( "#div_id_mikrotik" ).show();
         $( "#div_id_categoria" ).hide();
       }
       if($('input[type=radio][name=escopo]:checked').val() == 'categoria'){
         $( "#div_id_categoria" ).show();
-        $( "#div_id_ip" ).hide();
+        $( "#div_id_mikrotik" ).hide();
       }
 
       raioButon.change(function() {
         console.log(this.value)
-          if (this.value == 'ip') {
-              $( "#div_id_ip" ).show();
+          if (this.value == 'mikrotik') {
+              $( "#div_id_mikrotik" ).show();
               $( "#div_id_categoria" ).hide();
           }
           else if (this.value == 'categoria') {
               $( "#div_id_categoria" ).show();
-              $( "#div_id_ip" ).hide();
+              $( "#div_id_mikrotik" ).hide();
           }else{
             $( "#div_id_categoria" ).hide();
-            $( "#div_id_ip" ).hide();
+            $( "#div_id_mikrotik" ).hide();
           }
       });
     </script>

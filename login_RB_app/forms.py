@@ -10,7 +10,7 @@ class MikrotikForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-          'senha' : forms.PasswordInput(attrs={'class':'textinputclass'}),
+          'senha' : forms.PasswordInput(render_value=True, attrs={'class':'textinputclass'}),
           'ip' : forms.TextInput(attrs={'class':'ip_address'}),
         }
         labels = {
@@ -19,15 +19,17 @@ class MikrotikForm(forms.ModelForm):
 
 
 class UserCommand(forms.Form):
-    descricao = forms.CharField(label='Descrição', max_length=264)
+    username = forms.CharField(label='Nome de Usuário', max_length=264)
     senha = forms.CharField(widget=forms.PasswordInput(attrs={'maxlength': '40'}))
     nivel = forms.ChoiceField(choices=(("read", "leitura"),("write", "escrita"),("full", "Leitura/escrita")))
-    escopo = forms.ChoiceField(widget=forms.RadioSelect(attrs={ 'class':'form-check form-check-inline' }), choices=(("ip", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
-    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(),required=False)
-    ip = forms.GenericIPAddressField(protocol='IPv4',required=False, widget=forms.TextInput(attrs={'maxlength': '15','class':'ip_address'}))
+    escopo = forms.ChoiceField(widget=forms.RadioSelect(), choices=(("mikrotik", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(),required=False, empty_label=None)
+    mikrotik = forms.ModelChoiceField(queryset=Mikrotik.objects.all(),required=False, empty_label=None)
+    # ip = forms.GenericIPAddressField(protocol='IPv4',required=False, widget=forms.TextInput(attrs={'maxlength': '15','class':'ip_address'}))
 
 class RemoverUserCommand(forms.Form):
-    descricao = forms.CharField(label='Descrição', max_length=264)
-    escopo = forms.ChoiceField(widget=forms.RadioSelect(attrs={ 'class':'form-check form-check-inline' }), choices=(("ip", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
-    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(),required=False)
-    ip = forms.GenericIPAddressField(protocol='IPv4',required=False, widget=forms.TextInput(attrs={'maxlength': '15','class':'ip_address'}))
+    username = forms.CharField(label='Nome de Usuário',max_length=264)
+    escopo = forms.ChoiceField(widget=forms.RadioSelect(), choices=(("mikrotik", "por Mikrotik"),("categoria", "por Categoria"),("todos", "todos")))
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(),required=False, empty_label=None)
+    mikrotik = forms.ModelChoiceField(queryset=Mikrotik.objects.all(),required=False, empty_label=None)
+    # ip = forms.GenericIPAddressField(protocol='IPv4',required=False, widget=forms.TextInput(attrs={'maxlength': '15','class':'ip_address'}))
