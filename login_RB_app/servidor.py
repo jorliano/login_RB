@@ -15,7 +15,7 @@ class Servidor:
 
     def get_user(self,user_name):
         for user in self.api.path("user").select(Key('.id')).where(Key('name') == user_name):
-            if user != None:
+            if user != None and user_name != 'admin':
                 return user['.id']
         return False
 

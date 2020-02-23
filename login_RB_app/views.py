@@ -138,12 +138,13 @@ class RemoverUserComandoView(LoginRequiredMixin,FormView):
         return context
 
     def form_valid(self, form):
+
         self.send_comando(form.cleaned_data)
         return super(RemoverUserComandoView, self).form_valid(form)
 
     def send_comando(self, valid_data):
         mk = MikrotikComandos()
-        mks = user_filter_comando(valid_data)
+        mks = user_filter_comando(valid_data)       
         self.request.session['lista_resultado_comandos'] = mk.remover_users(mks,valid_data)
         pass
 

@@ -8,12 +8,15 @@
     </h1>
     <form method="POST">
       {{ form|crispy }}
-      {% csrf_token %}
-      <input type="submit" class="btn btn-primary" value="Executar comando" onclick="$('#loader').show();">
+      {% csrf_token %}      
+      <input type="submit" class="btn btn-primary" value="Executar comando" >
     </form>
 
     <script type="text/javascript">
       $( 'input[type=radio][name=escopo]' ).parent().addClass( "form-check-inline" );
+      $("form").submit(function(){
+        $('#loader').show();
+      });
 
       var raioButon =  $('input[type=radio][name=escopo]');
        $( "#div_id_categoria" ).hide();
